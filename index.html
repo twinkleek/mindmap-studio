@@ -121,8 +121,9 @@
     font-weight: 600; font-size: 15px;
     padding: 9px 16px; border-radius: 13px;
   }
-  .node.selected { outline: 3px solid var(--accent); outline-offset: 3px; }
-  .node.search-hit { box-shadow: 0 0 0 4px rgba(245,158,11,.55); }
+  .node.selected { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .node.selected:not(.root) { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+  .node.search-hit { box-shadow: 0 0 0 3px rgba(245,158,11,.5); }
   .node.dragging { pointer-events: none; opacity: .88; box-shadow: var(--shadow-lg); }
   .node.drop-target { outline: 3px dashed var(--accent); outline-offset: 3px; }
   @media (hover: hover) {
@@ -136,12 +137,18 @@
 
   .collapse-btn {
     position: absolute; right: -13px; top: 50%; transform: translateY(-50%);
-    width: 24px; height: 24px; border-radius: 50%;
-    background: var(--surface-solid); border: 2px solid var(--edge);
-    font-size: 13px; line-height: 20px; text-align: center;
-    color: var(--muted); cursor: pointer; display: none; font-weight: 700;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--surface-solid); border: 1px solid var(--surface-border);
+    font-size: 12px; line-height: 20px; text-align: center;
+    color: var(--muted); cursor: pointer; display: none; font-weight: 600;
+    opacity: 0; transition: opacity .15s; pointer-events: none;
+    box-shadow: var(--shadow);
   }
   .node.has-children .collapse-btn { display: block; }
+  /* 호버·선택·접힘 상태에서만 노출 — 평소엔 조용히 */
+  .node:hover .collapse-btn, .node.selected .collapse-btn, .collapse-btn.show {
+    opacity: 1; pointer-events: auto;
+  }
   .node.left-side .collapse-btn { right: auto; left: -13px; }
 
   /* 선택된 노드 옆에 바로 붙는 추가 버튼 */
@@ -258,13 +265,36 @@
     #zoom-panel button { width: 34px; height: 32px; }
   }
 
-  /* 검색바 */
+  /* 팝오버 (공유 메뉴 · 색상 팔레트) */
+  .popover[hidden] { display: none !important; }
+  .popover {
+    position: fixed; z-index: 35; width: max-content;
+    background: var(--surface); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--surface-border); border-radius: 16px;
+    padding: 6px; box-shadow: var(--shadow-lg);
+  }
+  .popover .menu-item {
+    display: flex; align-items: center; gap: 10px; width: 100%;
+    border: none; background: transparent; color: var(--text);
+    font-family: inherit; font-size: 13.5px; font-weight: 500; letter-spacing: -.1px;
+    padding: 9px 12px; border-radius: 10px; cursor: pointer; text-align: left;
+    white-space: nowrap;
+  }
+  .popover .menu-item:hover { background: var(--surface-border); }
+  #palette-pop { display: flex; gap: 8px; padding: 10px 12px; }
+  .palette-icon {
+    width: 17px; height: 17px; border-radius: 50%;
+    background: conic-gradient(#FF375F, #FF9F0A, #FFC400, #30D158, #0A84FF, #BF5AF2, #FF375F);
+    border: 1px solid rgba(0,0,0,.08);
+    flex-shrink: 0;
+  }
+
   /* 맵을 잃어버렸을 때 복귀 버튼 */
   #lost-pill[hidden] { display: none; }
   #lost-pill {
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
     border: none; cursor: pointer; font-family: inherit;
-    background: linear-gradient(180deg, #2f9bff, #0a84ff); color: #fff;
+    background: var(--accent); color: #fff;
     font-size: 14.5px; font-weight: 700; letter-spacing: -.1px;
     padding: 13px 22px; border-radius: 999px;
     box-shadow: 0 8px 28px rgba(10,132,255,.45); z-index: 25;
@@ -375,21 +405,25 @@
 
 <div id="topbar">
   <div id="title-wrap">
-    <span id="brand">MINDMAP</span>
     <input id="title-input" value="새 마인드맵" aria-label="마인드맵 제목">
     <span id="save-dot" title="자동 저장됨"></span>
   </div>
   <div id="top-actions">
     <button id="btn-docs"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>내 맵</button>
     <button id="btn-new"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>새 맵</button>
-    <button id="btn-save" title="파일(.json)로 내보내기"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>내보내기</button>
-    <button id="btn-load" title="파일(.json) 가져오기"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>가져오기</button>
-    <button id="btn-png" title="PNG 이미지로 저장 + 클립보드 복사"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>이미지</button>
-    <button id="btn-text" title="텍스트 개요 ↔ 마인드맵 변환"><svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>텍스트</button>
+    <button id="btn-share" data-pop title="공유 및 변환"><svg class="ic" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>공유</button>
     <button id="btn-search" title="노드 검색 (⌘F)"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
     <button id="btn-theme" title="테마 전환"><svg class="ic" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
     <button id="btn-help" title="사용법">?</button>
   </div>
+</div>
+
+<!-- 공유 메뉴 팝오버 -->
+<div class="popover" id="share-pop" hidden>
+  <button class="menu-item" id="btn-png"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>PNG 이미지로 저장</button>
+  <button class="menu-item" id="btn-text"><svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>텍스트 ↔ 맵 변환</button>
+  <button class="menu-item" id="btn-save"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>파일로 내보내기 (.json)</button>
+  <button class="menu-item" id="btn-load"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>파일 가져오기</button>
 </div>
 
 <div id="hint">노드를 탭해서 선택 · 더블탭으로 글자 수정 · 빈 곳 드래그로 화면 이동</div>
@@ -399,13 +433,18 @@
   <button id="btn-sibling" data-needs-selection><svg class="ic" viewBox="0 0 24 24"><polyline points="15 10 20 15 15 20"/><path d="M4 4v7a4 4 0 0 0 4 4h12"/></svg>형제</button>
   <button id="btn-edit" data-needs-selection><svg class="ic" viewBox="0 0 24 24"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>수정</button>
   <div class="sep"></div>
-  <div id="palette" data-needs-selection></div>
+  <button id="btn-palette" data-pop data-needs-selection title="노드 색상"><span class="palette-icon"></span>색상</button>
   <div class="sep"></div>
   <button id="btn-layout" title="겹침 없이 자동 정렬"><svg class="ic" viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/></svg>정렬</button>
   <button id="btn-undo" title="실행 취소 (⌘Z)"><svg class="ic" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg></button>
   <button id="btn-redo" title="다시 실행 (⌘⇧Z)"><svg class="ic" viewBox="0 0 24 24"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"/></svg></button>
   <div class="sep"></div>
   <button id="btn-delete" class="danger" data-needs-selection><svg class="ic" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>삭제</button>
+</div>
+
+<!-- 색상 팔레트 팝오버 -->
+<div class="popover" id="palette-pop" hidden>
+  <div id="palette"></div>
 </div>
 
 <div id="zoom-panel">
@@ -923,26 +962,13 @@
     world.querySelectorAll('.node').forEach(el => el.remove());
     edgeGroup.innerHTML = '';
     const rootNode = state.nodes[state.rootId];
+    const els = {};
 
     for (const id of Object.keys(state.nodes)) {
       const n = state.nodes[id];
       if (isHidden(n)) continue;
       const depth = depthOf(n);
       const branch = branchOf(n);
-
-      // 엣지
-      if (n.parentId && state.nodes[n.parentId]) {
-        const p = state.nodes[n.parentId];
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        const dx = (n.x - p.x) * 0.45;
-        path.setAttribute('d', `M ${p.x} ${p.y} C ${p.x + dx} ${p.y}, ${n.x - dx} ${n.y}, ${n.x} ${n.y}`);
-        path.setAttribute('fill', 'none');
-        path.setAttribute('stroke', branch ? branch.main : 'var(--edge)');
-        path.setAttribute('stroke-width', depth === 1 ? '2.5' : '1.5');
-        path.setAttribute('stroke-linecap', 'round');
-        path.setAttribute('opacity', depth === 1 ? '0.9' : '0.65');
-        edgeGroup.appendChild(path);
-      }
 
       // 노드
       const el = document.createElement('div');
@@ -995,6 +1021,7 @@
           cb.textContent = cnt;
           cb.style.fontSize = '11px';
           cb.title = `숨겨진 노드 ${cnt}개 · 펼치기`;
+          cb.classList.add('show'); // 접힌 상태는 항상 표시
         } else {
           cb.textContent = '−';
           cb.title = '접기';
@@ -1009,7 +1036,30 @@
         el.appendChild(cb);
       }
       world.appendChild(el);
+      els[id] = el;
     }
+
+    // 엣지: 노드 크기를 잰 뒤 가장자리 → 가장자리로 연결 (글자를 관통하지 않게)
+    for (const id of Object.keys(els)) {
+      const n = state.nodes[id];
+      const p = n.parentId && state.nodes[n.parentId];
+      if (!p || !els[p.id]) continue;
+      const depth = depthOf(n);
+      const branch = branchOf(n);
+      const dir = Math.sign(n.x - p.x) || 1;
+      const x1 = p.x + dir * (els[p.id].offsetWidth / 2 - 6);
+      const x2 = n.x - dir * (els[id].offsetWidth / 2 + 2);
+      const dx = (x2 - x1) * 0.5;
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M ${x1} ${p.y} C ${x1 + dx} ${p.y}, ${x2 - dx} ${n.y}, ${x2} ${n.y}`);
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke', branch ? branch.main : 'var(--edge)');
+      path.setAttribute('stroke-width', depth === 1 ? '2.5' : '1.5');
+      path.setAttribute('stroke-linecap', 'round');
+      path.setAttribute('opacity', depth === 1 ? '0.9' : '0.65');
+      edgeGroup.appendChild(path);
+    }
+
     document.getElementById('toolbar').classList.toggle('no-selection', !selectedId);
     applySearchHits();
     applyView();
@@ -1427,6 +1477,36 @@
   titleInput.addEventListener('input', () => { state.title = titleInput.value; persist(); });
   titleInput.addEventListener('keydown', e => { if (e.key === 'Enter') titleInput.blur(); });
 
+  // ===== 팝오버 =====
+  function closePops() { document.querySelectorAll('.popover').forEach(p => p.hidden = true); }
+  function togglePop(pop, anchor, dir) {
+    const wasOpen = !pop.hidden;
+    closePops();
+    if (wasOpen) return;
+    pop.hidden = false;
+    const r = anchor.getBoundingClientRect();
+    if (dir === 'down') {
+      pop.style.top = (r.bottom + 8) + 'px';
+      pop.style.bottom = 'auto';
+      pop.style.left = Math.max(8, Math.min(innerWidth - pop.offsetWidth - 8, r.right - pop.offsetWidth)) + 'px';
+    } else {
+      pop.style.bottom = (innerHeight - r.top + 8) + 'px';
+      pop.style.top = 'auto';
+      pop.style.left = Math.max(8, Math.min(innerWidth - pop.offsetWidth - 8, r.left + r.width / 2 - pop.offsetWidth / 2)) + 'px';
+    }
+  }
+  document.addEventListener('pointerdown', e => {
+    if (!e.target.closest('.popover') && !e.target.closest('[data-pop]')) closePops();
+  }, true);
+  $('#btn-share').addEventListener('click', e => { e.stopPropagation(); togglePop($('#share-pop'), $('#btn-share'), 'down'); });
+  $('#btn-palette').addEventListener('click', e => {
+    e.stopPropagation();
+    if (!selectedId) return toast('노드를 먼저 선택하세요');
+    togglePop($('#palette-pop'), $('#btn-palette'), 'up');
+  });
+  $('#share-pop').addEventListener('click', e => { if (e.target.closest('.menu-item')) closePops(); });
+  $('#palette-pop').addEventListener('click', e => { if (e.target.closest('.swatch')) closePops(); });
+
   // ===== 테마 =====
   function applyTheme() {
     document.body.dataset.theme = store.theme || 'light';
@@ -1694,10 +1774,13 @@
       ctx.strokeStyle = branch ? branch.main : T.edge;
       ctx.lineWidth = depth === 1 ? 2.5 : 1.5;
       ctx.globalAlpha = depth === 1 ? 0.9 : 0.65;
-      const dx = (n.x - p.x) * 0.45;
+      const dir = Math.sign(n.x - p.x) || 1;
+      const x1 = p.x + dir * (sizes[p.id].w / 2 - 6);
+      const x2 = n.x - dir * (sizes[n.id].w / 2 + 2);
+      const dx = (x2 - x1) * 0.5;
       ctx.beginPath();
-      ctx.moveTo(p.x + ox, p.y + oy);
-      ctx.bezierCurveTo(p.x + dx + ox, p.y + oy, n.x - dx + ox, n.y + oy, n.x + ox, n.y + oy);
+      ctx.moveTo(x1 + ox, p.y + oy);
+      ctx.bezierCurveTo(x1 + dx + ox, p.y + oy, x2 - dx + ox, n.y + oy, x2 + ox, n.y + oy);
       ctx.stroke();
     }
     ctx.globalAlpha = 1;
