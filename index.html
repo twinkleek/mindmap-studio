@@ -7,55 +7,77 @@
 <title>마인드맵 스튜디오</title>
 <style>
   :root, body[data-theme="light"] {
-    --bg: #f4f5fa;
-    --dot: #dcdfeb;
-    --surface: rgba(255,255,255,.9);
+    --bg: #f5f5f7;
+    --dot: #e3e3e8;
+    --surface: rgba(255,255,255,.72);
     --surface-solid: #ffffff;
-    --surface-border: #e4e7f0;
-    --text: #2b3040;
-    --muted: #8a90a5;
-    --accent: #4f6ef7;
+    --surface-border: rgba(0,0,0,.07);
+    --text: #1d1d1f;
+    --muted: #86868b;
+    --accent: #0a84ff;
     --node-bg: #ffffff;
-    --node-text: #2b3040;
-    --edge: #c3cadb;
-    --root-fill: #2b3040;
+    --node-text: #1d1d1f;
+    --edge: #d2d2d7;
+    --root-fill: #1d1f27;
+    --root-grad: linear-gradient(180deg, #34374a 0%, #1d1f27 100%);
     --root-text: #ffffff;
-    --shadow: 0 2px 10px rgba(40,50,80,.10);
-    --shadow-lg: 0 8px 30px rgba(40,50,80,.16);
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 6px 18px rgba(0,0,0,.07);
+    --shadow-lg: 0 2px 6px rgba(0,0,0,.06), 0 16px 44px rgba(0,0,0,.15);
   }
   body[data-theme="dark"] {
-    --bg: #14161d;
-    --dot: #262a36;
-    --surface: rgba(32,36,48,.92);
-    --surface-solid: #232733;
-    --surface-border: #343a4c;
-    --text: #e8eaf2;
-    --muted: #7d849c;
-    --accent: #6d87ff;
-    --node-bg: #232733;
-    --node-text: #e8eaf2;
-    --edge: #434b62;
-    --root-fill: #4f6ef7;
+    --bg: #0c0c0e;
+    --dot: #232328;
+    --surface: rgba(28,28,32,.72);
+    --surface-solid: #1c1c1e;
+    --surface-border: rgba(255,255,255,.09);
+    --text: #f5f5f7;
+    --muted: #98989d;
+    --accent: #0a84ff;
+    --node-bg: #1c1c1e;
+    --node-text: #f5f5f7;
+    --edge: #3a3a40;
+    --root-fill: #0a84ff;
+    --root-grad: linear-gradient(180deg, #2f9bff 0%, #0867d2 100%);
     --root-text: #ffffff;
-    --shadow: 0 2px 12px rgba(0,0,0,.35);
-    --shadow-lg: 0 8px 30px rgba(0,0,0,.5);
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 22px rgba(0,0,0,.45);
+    --shadow-lg: 0 2px 8px rgba(0,0,0,.5), 0 18px 50px rgba(0,0,0,.6);
   }
   body[data-theme="cream"] {
-    --bg: #faf6ee;
-    --dot: #e8e0d0;
-    --surface: rgba(255,253,248,.92);
-    --surface-solid: #fffdf8;
-    --surface-border: #ece4d4;
-    --text: #3d3528;
-    --muted: #a0967f;
+    --bg: #f7f3ea;
+    --dot: #e6dfd0;
+    --surface: rgba(255,252,245,.75);
+    --surface-solid: #fffdf6;
+    --surface-border: rgba(80,60,20,.09);
+    --text: #3a3429;
+    --muted: #9d937e;
     --accent: #c2410c;
-    --node-bg: #fffdf8;
-    --node-text: #3d3528;
-    --edge: #d8cdb6;
-    --root-fill: #3d3528;
-    --root-text: #fffdf8;
-    --shadow: 0 2px 10px rgba(90,75,40,.10);
-    --shadow-lg: 0 8px 30px rgba(90,75,40,.18);
+    --node-bg: #fffdf6;
+    --node-text: #3a3429;
+    --edge: #dcd2bd;
+    --root-fill: #322c22;
+    --root-grad: linear-gradient(180deg, #544c3c 0%, #322c22 100%);
+    --root-text: #fffdf6;
+    --shadow: 0 1px 2px rgba(90,75,40,.06), 0 6px 18px rgba(90,75,40,.08);
+    --shadow-lg: 0 2px 6px rgba(90,75,40,.08), 0 16px 44px rgba(90,75,40,.18);
+  }
+  /* 애플식 은은한 컬러 글로우 배경 */
+  body[data-theme="light"] {
+    background:
+      radial-gradient(1100px 700px at 88% -8%, rgba(10,132,255,.10), transparent 60%),
+      radial-gradient(900px 650px at -8% 108%, rgba(191,90,242,.08), transparent 60%),
+      #f5f5f7;
+  }
+  body[data-theme="dark"] {
+    background:
+      radial-gradient(1100px 700px at 88% -8%, rgba(10,132,255,.15), transparent 60%),
+      radial-gradient(900px 650px at -8% 108%, rgba(191,90,242,.11), transparent 60%),
+      #0c0c0e;
+  }
+  body[data-theme="cream"] {
+    background:
+      radial-gradient(1100px 700px at 88% -8%, rgba(255,159,10,.10), transparent 60%),
+      radial-gradient(900px 650px at -8% 108%, rgba(194,65,12,.06), transparent 60%),
+      #f7f3ea;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -76,9 +98,9 @@
     width: max-content;
     transform: translate(-50%, -50%);
     background: var(--node-bg);
-    border: 2px solid var(--edge);
-    border-radius: 14px;
-    padding: 9px 16px;
+    border: 1.5px solid var(--edge);
+    border-radius: 16px;
+    padding: 10px 17px;
     max-width: 250px;
     min-width: 40px;
     box-shadow: var(--shadow);
@@ -87,17 +109,22 @@
     -webkit-user-select: none;
     font-size: 14.5px;
     line-height: 1.4;
+    letter-spacing: -.1px;
     word-break: break-word;
     text-align: center;
     color: var(--node-text);
   }
   .node.root {
-    font-size: 19px; font-weight: 800; padding: 15px 26px;
-    background: var(--root-fill); color: var(--root-text);
-    border: none; border-radius: 18px; box-shadow: var(--shadow-lg);
-    letter-spacing: -.2px;
+    font-size: 19px; font-weight: 800; padding: 16px 28px;
+    background: var(--root-grad); color: var(--root-text);
+    border: none; border-radius: 20px; box-shadow: var(--shadow-lg);
+    letter-spacing: -.4px;
   }
-  .node.l1 { font-weight: 700; font-size: 15.5px; color: #fff; border: none; padding: 11px 19px; border-radius: 13px; }
+  .node.l1 {
+    font-weight: 700; font-size: 15.5px; color: #fff; border: none;
+    padding: 11px 19px; border-radius: 14px;
+    background-image: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,0) 55%);
+  }
   .node.selected { outline: 3px solid var(--accent); outline-offset: 3px; }
   .node.search-hit { box-shadow: 0 0 0 4px rgba(245,158,11,.55); }
   .node.dragging { pointer-events: none; opacity: .88; box-shadow: var(--shadow-lg); }
@@ -124,9 +151,9 @@
   .add-btn {
     position: absolute; top: 50%;
     width: 28px; height: 28px; border-radius: 50%;
-    background: var(--accent); color: #fff;
+    background: linear-gradient(180deg, #2f9bff, #0a84ff); color: #fff;
     font-size: 17px; line-height: 28px; text-align: center; font-weight: 600;
-    cursor: pointer; box-shadow: var(--shadow);
+    cursor: pointer; box-shadow: 0 2px 8px rgba(10,132,255,.45);
     transform: translateY(-50%);
   }
   .add-btn.side { right: -40px; }
@@ -138,20 +165,26 @@
     position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom)); transform: translateX(-50%);
     width: max-content;
     display: flex; gap: 6px; align-items: center;
-    background: var(--surface); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    border: 1px solid var(--surface-border); border-radius: 18px;
+    background: var(--surface); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--surface-border); border-radius: 22px;
     padding: 9px 11px; box-shadow: var(--shadow-lg);
     z-index: 20; flex-wrap: wrap; justify-content: center;
     max-width: calc(100vw - 20px);
   }
   #toolbar button {
     border: none; background: transparent; color: var(--text);
-    border-radius: 11px; padding: 9px 13px; font-size: 14px; font-weight: 600;
+    border-radius: 12px; padding: 9px 13px; font-size: 14px; font-weight: 600;
     cursor: pointer; font-family: inherit; white-space: nowrap;
     display: inline-flex; align-items: center; gap: 6px;
+    letter-spacing: -.1px;
+    transition: background .15s ease, transform .12s ease;
   }
   #toolbar button:hover { background: var(--surface-border); }
-  #toolbar button.primary { background: var(--accent); color: #fff; }
+  #toolbar button:active { transform: scale(.95); }
+  #toolbar button.primary {
+    background: linear-gradient(180deg, #2f9bff, #0a84ff); color: #fff;
+    box-shadow: 0 1px 3px rgba(10,132,255,.4);
+  }
   #toolbar button.danger { color: #e5484d; }
   #toolbar button.danger:hover { background: rgba(229,72,77,.1); }
   #toolbar .sep { width: 1px; height: 24px; background: var(--surface-border); margin: 0 3px; }
@@ -169,8 +202,8 @@
   #zoom-panel {
     position: fixed; right: 14px; bottom: calc(16px + env(safe-area-inset-bottom));
     display: flex; flex-direction: column; gap: 2px;
-    background: var(--surface); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    border: 1px solid var(--surface-border); border-radius: 14px;
+    background: var(--surface); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--surface-border); border-radius: 16px;
     padding: 5px; box-shadow: var(--shadow-lg); z-index: 20;
   }
   #zoom-panel button {
@@ -188,8 +221,8 @@
     z-index: 20; pointer-events: none;
   }
   #topbar > * { pointer-events: auto; }
-  #title-wrap { display: flex; align-items: center; gap: 8px; background: var(--surface); backdrop-filter: blur(10px); border: 1px solid var(--surface-border); border-radius: 14px; padding: 4px 6px 4px 14px; box-shadow: var(--shadow); }
-  #brand { font-size: 12px; font-weight: 800; color: var(--accent); letter-spacing: .4px; white-space: nowrap; }
+  #title-wrap { display: flex; align-items: center; gap: 8px; background: var(--surface); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid var(--surface-border); border-radius: 14px; padding: 4px 6px 4px 14px; box-shadow: var(--shadow); }
+  #brand { font-size: 10.5px; font-weight: 700; color: var(--muted); letter-spacing: 1.6px; white-space: nowrap; }
   #save-dot {
     width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
     flex-shrink: 0; margin-right: 8px; opacity: .55;
@@ -207,12 +240,14 @@
   #top-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
   #top-actions button {
     border: 1px solid var(--surface-border); background: var(--surface);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
     border-radius: 12px; padding: 9px 13px; font-size: 13.5px; font-weight: 600;
     cursor: pointer; box-shadow: var(--shadow); font-family: inherit;
-    color: var(--text); white-space: nowrap;
+    color: var(--text); white-space: nowrap; letter-spacing: -.1px;
     display: inline-flex; align-items: center; gap: 6px;
+    transition: background .15s ease, transform .12s ease;
   }
+  #top-actions button:active { transform: scale(.95); }
   #toolbar button, #palette, .swatch { flex-shrink: 0; }
   #toolbar, #top-actions { touch-action: pan-x; }
   @media (max-width: 700px) {
@@ -230,11 +265,23 @@
   }
 
   /* 검색바 */
+  /* 맵을 잃어버렸을 때 복귀 버튼 */
+  #lost-pill[hidden] { display: none; }
+  #lost-pill {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    border: none; cursor: pointer; font-family: inherit;
+    background: linear-gradient(180deg, #2f9bff, #0a84ff); color: #fff;
+    font-size: 14.5px; font-weight: 700; letter-spacing: -.1px;
+    padding: 13px 22px; border-radius: 999px;
+    box-shadow: 0 8px 28px rgba(10,132,255,.45); z-index: 25;
+  }
+  #lost-pill:active { transform: translate(-50%, -50%) scale(.95); }
+
   #search-bar[hidden] { display: none; }
   #search-bar {
     position: fixed; top: 70px; left: 50%; transform: translateX(-50%);
     display: flex; align-items: center; gap: 8px;
-    background: var(--surface); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    background: var(--surface); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
     border: 1px solid var(--surface-border); border-radius: 14px;
     padding: 8px 12px; box-shadow: var(--shadow-lg); z-index: 30;
     width: max-content;
@@ -282,7 +329,8 @@
   }
   .overlay.show { display: flex; }
   .sheet {
-    background: var(--surface-solid); border-radius: 20px; padding: 24px 26px;
+    background: var(--surface-solid); border-radius: 24px; padding: 26px 28px;
+    border: 1px solid var(--surface-border);
     max-width: 520px; width: calc(100vw - 36px); box-shadow: var(--shadow-lg);
     max-height: 82vh; overflow-y: auto; color: var(--text);
   }
@@ -374,6 +422,8 @@
 
 <div id="toast"></div>
 
+<button id="lost-pill" hidden>🧭 맵으로 돌아가기</button>
+
 <div id="search-bar" hidden>
   <svg class="ic" viewBox="0 0 24 24" style="color:var(--muted)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
   <input id="search-input" placeholder="노드 검색 — Enter로 이동" autocomplete="off">
@@ -456,17 +506,18 @@
   'use strict';
 
   // ===== 브랜치 컬러 시스템 =====
+  // 애플 시스템 컬러 팔레트
   const BRANCHES = [
-    { main: '#4F6EF7', soft: '#E5EAFE' },
-    { main: '#F0598C', soft: '#FDE4EE' },
-    { main: '#F59E0B', soft: '#FCEFD7' },
-    { main: '#10B981', soft: '#DBF5EB' },
-    { main: '#8B5CF6', soft: '#ECE4FD' },
-    { main: '#06B6D4', soft: '#DBF3F8' },
-    { main: '#E25822', soft: '#FBE6DC' },
-    { main: '#65A30D', soft: '#EAF4D8' },
+    { main: '#0A84FF', soft: '#E1EFFF' }, // blue
+    { main: '#FF375F', soft: '#FFE3E9' }, // pink
+    { main: '#FF9F0A', soft: '#FFF0DB' }, // orange
+    { main: '#30D158', soft: '#E0F8E7' }, // green
+    { main: '#BF5AF2', soft: '#F5E6FD' }, // purple
+    { main: '#5E5CE6', soft: '#E7E7FB' }, // indigo
+    { main: '#64D2FF', soft: '#E3F6FF' }, // teal
+    { main: '#FFD60A', soft: '#FFF8D6' }, // yellow
   ];
-  const PALETTE = ['#FDE4EE', '#FCEFD7', '#FDF6C8', '#DBF5EB', '#DBEEFE', '#ECE4FD', '#FBE6DC', '#F1F3F9'];
+  const PALETTE = ['#FFE3E9', '#FFF0DB', '#FFF8D6', '#E0F8E7', '#E1EFFF', '#F5E6FD', '#E7E7FB', '#F2F2F7'];
   const THEMES = [
     { id: 'light', name: '라이트' },
     { id: 'dark', name: '다크' },
@@ -835,7 +886,7 @@
     const r = parseInt(hex.slice(1, 3), 16) / 255;
     const g = parseInt(hex.slice(3, 5), 16) / 255;
     const b = parseInt(hex.slice(5, 7), 16) / 255;
-    return (0.2126 * r + 0.7152 * g + 0.0722 * b) > 0.45 ? '#1d2433' : '#ffffff';
+    return (0.2126 * r + 0.7152 * g + 0.0722 * b) > 0.55 ? '#1d1d1f' : '#ffffff';
   }
   function descendants(id) {
     const out = [];
@@ -851,9 +902,25 @@
   }
 
   // ===== 렌더링 =====
+  let lostCheckTimer = null;
   function applyView() {
     const v = state.view;
     world.style.transform = `translate(${v.x}px, ${v.y}px) scale(${v.scale})`;
+    clearTimeout(lostCheckTimer);
+    lostCheckTimer = setTimeout(checkLost, 120);
+  }
+
+  // 모든 노드가 화면 밖이면 복귀 버튼 표시
+  function checkLost() {
+    const v = state.view;
+    let visible = false;
+    for (const n of Object.values(state.nodes)) {
+      if (isHidden(n)) continue;
+      const sx = n.x * v.scale + v.x;
+      const sy = n.y * v.scale + v.y;
+      if (sx > -150 && sx < innerWidth + 150 && sy > -80 && sy < innerHeight + 80) { visible = true; break; }
+    }
+    document.getElementById('lost-pill').hidden = visible;
   }
 
   function render() {
@@ -896,12 +963,12 @@
       el.style.top = n.y + 'px';
 
       if (n.color) {
-        // 사용자 지정 색
-        el.style.background = n.color;
+        // 사용자 지정 색 (backgroundColor만 바꿔 l1 하이라이트 그라데이션은 유지)
+        el.style.backgroundColor = n.color;
         el.style.color = textOn(n.color);
-        if (depth >= 1 && branch) el.style.border = `2px solid ${branch.main}`;
+        if (depth >= 1 && branch) el.style.border = `1.5px solid ${branch.main}`;
       } else if (depth === 1 && branch) {
-        el.style.background = branch.main;
+        el.style.backgroundColor = branch.main;
         el.style.color = textOn(branch.main);
       } else if (depth >= 2 && branch) {
         el.style.borderColor = branch.main;
@@ -1342,6 +1409,7 @@
   }
   $('#btn-zoom-in').addEventListener('click', () => animateView(() => zoomBy(1.25)));
   $('#btn-zoom-out').addEventListener('click', () => animateView(() => zoomBy(0.8)));
+  $('#lost-pill').addEventListener('click', () => animateView(() => { fitToScreen(); persist(); }));
 
   const palette = $('#palette');
   {
@@ -1585,9 +1653,9 @@
 
   // ===== PNG 내보내기 =====
   const EXPORT_THEME = {
-    light: { bg: '#f4f5fa', nodeBg: '#ffffff', nodeText: '#2b3040', edge: '#c3cadb', rootFill: '#2b3040', rootText: '#ffffff', title: '#8a90a5' },
-    dark: { bg: '#14161d', nodeBg: '#232733', nodeText: '#e8eaf2', edge: '#434b62', rootFill: '#4f6ef7', rootText: '#ffffff', title: '#7d849c' },
-    cream: { bg: '#faf6ee', nodeBg: '#fffdf8', nodeText: '#3d3528', edge: '#d8cdb6', rootFill: '#3d3528', rootText: '#fffdf8', title: '#a0967f' },
+    light: { bg: '#f5f5f7', nodeBg: '#ffffff', nodeText: '#1d1d1f', edge: '#d2d2d7', rootTop: '#34374a', rootBottom: '#1d1f27', rootText: '#ffffff', title: '#86868b' },
+    dark: { bg: '#0c0c0e', nodeBg: '#1c1c1e', nodeText: '#f5f5f7', edge: '#3a3a40', rootTop: '#2f9bff', rootBottom: '#0867d2', rootText: '#ffffff', title: '#98989d' },
+    cream: { bg: '#f7f3ea', nodeBg: '#fffdf6', nodeText: '#3a3429', edge: '#dcd2bd', rootTop: '#544c3c', rootBottom: '#322c22', rootText: '#fffdf6', title: '#9d937e' },
   };
 
   $('#btn-png').addEventListener('click', () => {
@@ -1645,15 +1713,20 @@
       const x = n.x + ox - s.w / 2, y = n.y + oy - s.h / 2;
 
       let fill = T.nodeBg, textColor = T.nodeText, border = branch ? branch.main : T.edge, fw = '500';
-      let fs = 14.5, radius = 14;
-      if (depth === 0) { fill = T.rootFill; textColor = T.rootText; border = null; fw = '800'; fs = 19; radius = 18; }
+      let fs = 14.5, radius = 16;
+      if (depth === 0) {
+        const g = ctx.createLinearGradient(0, y, 0, y + s.h);
+        g.addColorStop(0, T.rootTop);
+        g.addColorStop(1, T.rootBottom);
+        fill = g; textColor = T.rootText; border = null; fw = '800'; fs = 19; radius = 20;
+      }
       else if (depth === 1 && !n.color) { fill = branch.main; textColor = textOn(branch.main); border = null; fw = '700'; fs = 15.5; }
       if (n.color) { fill = n.color; textColor = textOn(n.color); }
 
       ctx.fillStyle = fill;
       roundRect(ctx, x, y, s.w, s.h, radius);
       ctx.fill();
-      if (border) { ctx.strokeStyle = border; ctx.lineWidth = 2; ctx.stroke(); }
+      if (border) { ctx.strokeStyle = border; ctx.lineWidth = 1.5; ctx.stroke(); }
 
       ctx.fillStyle = textColor;
       ctx.font = `${fw} ${fs}px -apple-system, "Apple SD Gothic Neo", sans-serif`;
