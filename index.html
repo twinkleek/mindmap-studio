@@ -17,12 +17,11 @@
     --accent: #0a84ff;
     --node-bg: #ffffff;
     --node-text: #1d1d1f;
-    --edge: #d2d2d7;
-    --root-fill: #1d1f27;
-    --root-grad: linear-gradient(180deg, #34374a 0%, #1d1f27 100%);
+    --edge: #d8d8dd;
+    --root-fill: #1d1d1f;
     --root-text: #ffffff;
-    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 6px 18px rgba(0,0,0,.07);
-    --shadow-lg: 0 2px 6px rgba(0,0,0,.06), 0 16px 44px rgba(0,0,0,.15);
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.05);
+    --shadow-lg: 0 2px 6px rgba(0,0,0,.05), 0 16px 44px rgba(0,0,0,.12);
   }
   body[data-theme="dark"] {
     --bg: #0c0c0e;
@@ -36,9 +35,8 @@
     --node-bg: #1c1c1e;
     --node-text: #f5f5f7;
     --edge: #3a3a40;
-    --root-fill: #0a84ff;
-    --root-grad: linear-gradient(180deg, #2f9bff 0%, #0867d2 100%);
-    --root-text: #ffffff;
+    --root-fill: #f5f5f7;
+    --root-text: #1d1d1f;
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 22px rgba(0,0,0,.45);
     --shadow-lg: 0 2px 8px rgba(0,0,0,.5), 0 18px 50px rgba(0,0,0,.6);
   }
@@ -55,28 +53,26 @@
     --node-text: #3a3429;
     --edge: #dcd2bd;
     --root-fill: #322c22;
-    --root-grad: linear-gradient(180deg, #544c3c 0%, #322c22 100%);
     --root-text: #fffdf6;
     --shadow: 0 1px 2px rgba(90,75,40,.06), 0 6px 18px rgba(90,75,40,.08);
     --shadow-lg: 0 2px 6px rgba(90,75,40,.08), 0 16px 44px rgba(90,75,40,.18);
   }
-  /* 애플식 은은한 컬러 글로우 배경 */
+  /* 아주 은은한 컬러 글로우 배경 */
   body[data-theme="light"] {
     background:
-      radial-gradient(1100px 700px at 88% -8%, rgba(10,132,255,.10), transparent 60%),
-      radial-gradient(900px 650px at -8% 108%, rgba(191,90,242,.08), transparent 60%),
+      radial-gradient(1100px 700px at 88% -8%, rgba(10,132,255,.05), transparent 60%),
+      radial-gradient(900px 650px at -8% 108%, rgba(191,90,242,.04), transparent 60%),
       #f5f5f7;
   }
   body[data-theme="dark"] {
     background:
-      radial-gradient(1100px 700px at 88% -8%, rgba(10,132,255,.15), transparent 60%),
-      radial-gradient(900px 650px at -8% 108%, rgba(191,90,242,.11), transparent 60%),
+      radial-gradient(1100px 700px at 88% -8%, rgba(10,132,255,.09), transparent 60%),
+      radial-gradient(900px 650px at -8% 108%, rgba(191,90,242,.06), transparent 60%),
       #0c0c0e;
   }
   body[data-theme="cream"] {
     background:
-      radial-gradient(1100px 700px at 88% -8%, rgba(255,159,10,.10), transparent 60%),
-      radial-gradient(900px 650px at -8% 108%, rgba(194,65,12,.06), transparent 60%),
+      radial-gradient(1100px 700px at 88% -8%, rgba(255,159,10,.05), transparent 60%),
       #f7f3ea;
   }
 
@@ -93,21 +89,22 @@
   #world { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
   #edges { position: absolute; left: -20000px; top: -20000px; width: 40000px; height: 40000px; pointer-events: none; }
 
+  /* 기본(하위) 노드: 박스 없이 텍스트만 — 선과 타이포그래피가 구조를 만든다 */
   .node {
     position: absolute;
     width: max-content;
     transform: translate(-50%, -50%);
-    background: var(--node-bg);
-    border: 1.5px solid var(--edge);
-    border-radius: 16px;
-    padding: 10px 17px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 7px 12px;
     max-width: 250px;
-    min-width: 40px;
-    box-shadow: var(--shadow);
+    min-width: 30px;
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
-    font-size: 14.5px;
+    font-size: 14px;
+    font-weight: 500;
     line-height: 1.4;
     letter-spacing: -.1px;
     word-break: break-word;
@@ -115,22 +112,22 @@
     color: var(--node-text);
   }
   .node.root {
-    font-size: 19px; font-weight: 800; padding: 16px 28px;
-    background: var(--root-grad); color: var(--root-text);
-    border: none; border-radius: 20px; box-shadow: var(--shadow-lg);
+    font-size: 18px; font-weight: 700; padding: 14px 26px;
+    background: var(--root-fill); color: var(--root-text);
+    border: none; border-radius: 18px; box-shadow: var(--shadow-lg);
     letter-spacing: -.4px;
   }
   .node.l1 {
-    font-weight: 700; font-size: 15.5px; color: #fff; border: none;
-    padding: 11px 19px; border-radius: 14px;
-    background-image: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,0) 55%);
+    font-weight: 600; font-size: 15px;
+    padding: 9px 16px; border-radius: 13px;
   }
   .node.selected { outline: 3px solid var(--accent); outline-offset: 3px; }
   .node.search-hit { box-shadow: 0 0 0 4px rgba(245,158,11,.55); }
   .node.dragging { pointer-events: none; opacity: .88; box-shadow: var(--shadow-lg); }
   .node.drop-target { outline: 3px dashed var(--accent); outline-offset: 3px; }
   @media (hover: hover) {
-    .node:not(.root):hover { box-shadow: 0 5px 18px rgba(40,50,80,.2); }
+    .node:not(.root):not(.l1):hover { background: color-mix(in srgb, var(--text) 6%, transparent); }
+    .node.l1:hover, .node.root:hover { filter: brightness(1.04); }
   }
   #world.view-anim { transition: transform .35s cubic-bezier(.25,.8,.35,1); }
   .node .txt { outline: none; white-space: pre-wrap; }
@@ -151,9 +148,9 @@
   .add-btn {
     position: absolute; top: 50%;
     width: 28px; height: 28px; border-radius: 50%;
-    background: linear-gradient(180deg, #2f9bff, #0a84ff); color: #fff;
+    background: var(--accent); color: #fff;
     font-size: 17px; line-height: 28px; text-align: center; font-weight: 600;
-    cursor: pointer; box-shadow: 0 2px 8px rgba(10,132,255,.45);
+    cursor: pointer; box-shadow: 0 2px 6px rgba(10,132,255,.3);
     transform: translateY(-50%);
   }
   .add-btn.side { right: -40px; }
@@ -181,10 +178,7 @@
   }
   #toolbar button:hover { background: var(--surface-border); }
   #toolbar button:active { transform: scale(.95); }
-  #toolbar button.primary {
-    background: linear-gradient(180deg, #2f9bff, #0a84ff); color: #fff;
-    box-shadow: 0 1px 3px rgba(10,132,255,.4);
-  }
+  #toolbar button.primary { background: var(--accent); color: #fff; }
   #toolbar button.danger { color: #e5484d; }
   #toolbar button.danger:hover { background: rgba(229,72,77,.1); }
   #toolbar .sep { width: 1px; height: 24px; background: var(--surface-border); margin: 0 3px; }
@@ -506,17 +500,19 @@
   'use strict';
 
   // ===== 브랜치 컬러 시스템 =====
-  // 애플 시스템 컬러 팔레트
+  // 애플 시스템 컬러 — main: 선, text: 밝은 배경용 텍스트(가독 보정)
   const BRANCHES = [
-    { main: '#0A84FF', soft: '#E1EFFF' }, // blue
-    { main: '#FF375F', soft: '#FFE3E9' }, // pink
-    { main: '#FF9F0A', soft: '#FFF0DB' }, // orange
-    { main: '#30D158', soft: '#E0F8E7' }, // green
-    { main: '#BF5AF2', soft: '#F5E6FD' }, // purple
-    { main: '#5E5CE6', soft: '#E7E7FB' }, // indigo
-    { main: '#64D2FF', soft: '#E3F6FF' }, // teal
-    { main: '#FFD60A', soft: '#FFF8D6' }, // yellow
+    { main: '#0A84FF', text: '#0066D6' }, // blue
+    { main: '#FF375F', text: '#D61F44' }, // pink
+    { main: '#FF9F0A', text: '#BF6900' }, // orange
+    { main: '#30D158', text: '#1E8E3E' }, // green
+    { main: '#BF5AF2', text: '#9233C9' }, // purple
+    { main: '#5E5CE6', text: '#4644B8' }, // indigo
+    { main: '#64D2FF', text: '#0C7FA6' }, // teal
+    { main: '#FFC400', text: '#9B7000' }, // yellow
   ];
+  const hexA = (hex, a) => `rgba(${parseInt(hex.slice(1, 3), 16)},${parseInt(hex.slice(3, 5), 16)},${parseInt(hex.slice(5, 7), 16)},${a})`;
+  const isDarkTheme = () => (store && store.theme) === 'dark';
   const PALETTE = ['#FFE3E9', '#FFF0DB', '#FFF8D6', '#E0F8E7', '#E1EFFF', '#F5E6FD', '#E7E7FB', '#F2F2F7'];
   const THEMES = [
     { id: 'light', name: '라이트' },
@@ -942,9 +938,9 @@
         path.setAttribute('d', `M ${p.x} ${p.y} C ${p.x + dx} ${p.y}, ${n.x - dx} ${n.y}, ${n.x} ${n.y}`);
         path.setAttribute('fill', 'none');
         path.setAttribute('stroke', branch ? branch.main : 'var(--edge)');
-        path.setAttribute('stroke-width', depth === 1 ? '3.2' : '2.2');
+        path.setAttribute('stroke-width', depth === 1 ? '2.5' : '1.5');
         path.setAttribute('stroke-linecap', 'round');
-        if (depth > 1) path.setAttribute('opacity', '0.8');
+        path.setAttribute('opacity', depth === 1 ? '0.9' : '0.65');
         edgeGroup.appendChild(path);
       }
 
@@ -963,16 +959,17 @@
       el.style.top = n.y + 'px';
 
       if (n.color) {
-        // 사용자 지정 색 (backgroundColor만 바꿔 l1 하이라이트 그라데이션은 유지)
+        // 사용자 지정 색: 옅은 박스로
         el.style.backgroundColor = n.color;
         el.style.color = textOn(n.color);
-        if (depth >= 1 && branch) el.style.border = `1.5px solid ${branch.main}`;
+        el.style.borderColor = 'rgba(0,0,0,.06)';
       } else if (depth === 1 && branch) {
-        el.style.backgroundColor = branch.main;
-        el.style.color = textOn(branch.main);
-      } else if (depth >= 2 && branch) {
-        el.style.borderColor = branch.main;
+        // 1단계: 8% 틴트 + 컬러 텍스트 (채움 대신 뉘앙스만)
+        el.style.backgroundColor = hexA(branch.main, isDarkTheme() ? 0.16 : 0.08);
+        el.style.borderColor = hexA(branch.main, 0.3);
+        el.style.color = isDarkTheme() ? branch.main : branch.text;
       }
+      // 2단계 이하: 박스 없음 — 텍스트만
 
       const txt = document.createElement('div');
       txt.className = 'txt';
@@ -1653,9 +1650,9 @@
 
   // ===== PNG 내보내기 =====
   const EXPORT_THEME = {
-    light: { bg: '#f5f5f7', nodeBg: '#ffffff', nodeText: '#1d1d1f', edge: '#d2d2d7', rootTop: '#34374a', rootBottom: '#1d1f27', rootText: '#ffffff', title: '#86868b' },
-    dark: { bg: '#0c0c0e', nodeBg: '#1c1c1e', nodeText: '#f5f5f7', edge: '#3a3a40', rootTop: '#2f9bff', rootBottom: '#0867d2', rootText: '#ffffff', title: '#98989d' },
-    cream: { bg: '#f7f3ea', nodeBg: '#fffdf6', nodeText: '#3a3429', edge: '#dcd2bd', rootTop: '#544c3c', rootBottom: '#322c22', rootText: '#fffdf6', title: '#9d937e' },
+    light: { bg: '#f5f5f7', nodeText: '#1d1d1f', edge: '#d8d8dd', rootFill: '#1d1d1f', rootText: '#ffffff', title: '#86868b' },
+    dark: { bg: '#0c0c0e', nodeText: '#f5f5f7', edge: '#3a3a40', rootFill: '#f5f5f7', rootText: '#1d1d1f', title: '#98989d' },
+    cream: { bg: '#f7f3ea', nodeText: '#3a3429', edge: '#dcd2bd', rootFill: '#322c22', rootText: '#fffdf6', title: '#9d937e' },
   };
 
   $('#btn-png').addEventListener('click', () => {
@@ -1695,8 +1692,8 @@
       const branch = branchOf(n);
       const depth = depthOf(n);
       ctx.strokeStyle = branch ? branch.main : T.edge;
-      ctx.lineWidth = depth === 1 ? 3.2 : 2.2;
-      ctx.globalAlpha = depth > 1 ? 0.8 : 1;
+      ctx.lineWidth = depth === 1 ? 2.5 : 1.5;
+      ctx.globalAlpha = depth === 1 ? 0.9 : 0.65;
       const dx = (n.x - p.x) * 0.45;
       ctx.beginPath();
       ctx.moveTo(p.x + ox, p.y + oy);
@@ -1712,21 +1709,24 @@
       const branch = branchOf(n);
       const x = n.x + ox - s.w / 2, y = n.y + oy - s.h / 2;
 
-      let fill = T.nodeBg, textColor = T.nodeText, border = branch ? branch.main : T.edge, fw = '500';
-      let fs = 14.5, radius = 16;
-      if (depth === 0) {
-        const g = ctx.createLinearGradient(0, y, 0, y + s.h);
-        g.addColorStop(0, T.rootTop);
-        g.addColorStop(1, T.rootBottom);
-        fill = g; textColor = T.rootText; border = null; fw = '800'; fs = 19; radius = 20;
+      const dark = (store.theme || 'light') === 'dark';
+      let fill = null, textColor = T.nodeText, border = null, fw = '500';
+      let fs = 14, radius = 13;
+      if (depth === 0) { fill = T.rootFill; textColor = T.rootText; fw = '700'; fs = 18; radius = 18; }
+      else if (depth === 1 && !n.color && branch) {
+        fill = hexA(branch.main, dark ? 0.16 : 0.08);
+        border = hexA(branch.main, 0.3);
+        textColor = dark ? branch.main : branch.text;
+        fw = '600'; fs = 15;
       }
-      else if (depth === 1 && !n.color) { fill = branch.main; textColor = textOn(branch.main); border = null; fw = '700'; fs = 15.5; }
-      if (n.color) { fill = n.color; textColor = textOn(n.color); }
+      if (n.color) { fill = n.color; border = 'rgba(0,0,0,.06)'; textColor = textOn(n.color); }
 
-      ctx.fillStyle = fill;
-      roundRect(ctx, x, y, s.w, s.h, radius);
-      ctx.fill();
-      if (border) { ctx.strokeStyle = border; ctx.lineWidth = 1.5; ctx.stroke(); }
+      if (fill) {
+        ctx.fillStyle = fill;
+        roundRect(ctx, x, y, s.w, s.h, radius);
+        ctx.fill();
+        if (border) { ctx.strokeStyle = border; ctx.lineWidth = 1; ctx.stroke(); }
+      }
 
       ctx.fillStyle = textColor;
       ctx.font = `${fw} ${fs}px -apple-system, "Apple SD Gothic Neo", sans-serif`;
